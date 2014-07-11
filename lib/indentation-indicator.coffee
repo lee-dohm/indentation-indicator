@@ -15,5 +15,6 @@ class IndentationIndicator
   # Deactivates the package.
   deactivate: ->
     @view?.destroy()
+    @view = null
 
 module.exports = new IndentationIndicator()
