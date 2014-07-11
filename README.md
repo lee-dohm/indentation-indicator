@@ -18,7 +18,7 @@ The indentation indicator can be styled using the following classes:
 
 It uses the following values from `ui-variables` as defaults in order to blend in to your theme:
 
-* `@text-color` - Text color when not lit
+* `@text-color` - Color of the indicator text
 
 ## Copyright
 
