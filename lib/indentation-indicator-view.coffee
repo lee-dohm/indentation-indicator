@@ -7,23 +7,29 @@ class IndentationIndicatorView extends View
     @div class: 'inline-block', =>
       @span 'foo:42', class: 'indentation-indicator', outlet: 'text'
 
-  # Initializes the view by subscribing to various events.
+  # Public: Initializes the view by subscribing to various events.
   #
   # statusBar - {StatusBar} of the application
   initialize: (@statusBar) ->
     @subscribe @statusBar, 'active-buffer-changed', @update
 
+  # Internal: Creates the text for the indicator.
+  #
+  # softTabs - A {Boolean} indicating whether soft tabs are enabled.
+  # length - The {Number} of spaces that a tab is considered equivalent to.
+  #
+  # Returns the {String} containing the text for the indicator.
   formatText: (softTabs, length) ->
     type = if softTabs then "Spaces" else "Tabs"
     "#{type}:#{length}"
 
-  # Gets the currently active `Editor`.
+  # Internal: Gets the currently active `Editor`.
   #
   # Returns the {Editor} that is currently active or `null` if there is not one active.
   getActiveEditor: ->
     atom.workspace.getActiveEditor()
 
-  # Updates the indicator based on the current state of the application.
+  # Internal: Updates the indicator based on the current state of the application.
   update: =>
     editor = @getActiveEditor()
     if editor?
@@ -31,6 +37,6 @@ class IndentationIndicatorView extends View
     else
       @text.hide()
 
-  # Tear down any state and detach.
+  # Public: Tear down any state and detach.
   destroy: ->
     @remove()
