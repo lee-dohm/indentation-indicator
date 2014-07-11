@@ -1,13 +1,19 @@
 IndentationIndicatorView = require './indentation-indicator-view'
 
-module.exports =
-  indentationIndicatorView: null
+# Handles the activation and deactivation of the package.
+class IndentationIndicator
+  view: null
 
-  activate: (state) ->
-    @indentationIndicatorView = new IndentationIndicatorView(state.indentationIndicatorViewState)
+  # Activates the package.
+  activate: ->
+    atom.packages.once 'activated', =>
+      statusBar = atom.workspaceView.statusBar
+      if statusBar?
+        @view = new IndentationIndicatorView(statusBar)
+        statusBar.appendLeft(@view)
 
+  # Deactivates the package.
   deactivate: ->
-    @indentationIndicatorView.destroy()
+    @view?.destroy()
 
-  serialize: ->
-    indentationIndicatorViewState: @indentationIndicatorView.serialize()
+module.exports = new IndentationIndicator()

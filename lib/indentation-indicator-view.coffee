@@ -1,24 +1,36 @@
 {View} = require 'atom'
 
+# Status bar view for the indentation indicator.
 module.exports =
 class IndentationIndicatorView extends View
   @content: ->
-    @div class: 'indentation-indicator overlay from-top', =>
-      @div "The IndentationIndicator package is Alive! It's ALIVE!", class: "message"
+    @div class: 'inline-block', =>
+      @span 'foo:42', class: 'indentation-indicator', outlet: 'text'
 
-  initialize: (serializeState) ->
-    atom.workspaceView.command "indentation-indicator:toggle", => @toggle()
+  # Initializes the view by subscribing to various events.
+  #
+  # statusBar - {StatusBar} of the application
+  initialize: (@statusBar) ->
+    @subscribe @statusBar, 'active-buffer-changed', @update
 
-  # Returns an object that can be retrieved when package is activated
-  serialize: ->
+  formatText: (softTabs, length) ->
+    type = if softTabs then "Spaces" else "Tabs"
+    "#{type}:#{length}"
 
-  # Tear down any state and detach
-  destroy: ->
-    @detach()
+  # Gets the currently active `Editor`.
+  #
+  # Returns the {Editor} that is currently active or `null` if there is not one active.
+  getActiveEditor: ->
+    atom.workspace.getActiveEditor()
 
-  toggle: ->
-    console.log "IndentationIndicatorView was toggled!"
-    if @hasParent()
-      @detach()
+  # Updates the indicator based on the current state of the application.
+  update: =>
+    editor = @getActiveEditor()
+    if editor?
+      @text.text(@formatText(editor.getSoftTabs(), editor.getTabLength())).show()
     else
-      atom.workspaceView.append(this)
+      @text.hide()
+
+  # Tear down any state and detach.
+  destroy: ->
+    @remove()
