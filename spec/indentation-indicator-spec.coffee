@@ -16,6 +16,18 @@ describe 'IndentationIndicator', ->
     it 'displays in the status bar', ->
       expect(atom.workspaceView.find('.indentation-indicator').length).toBe 1
 
+    it 'has placeholder text if there is no file open', ->
+      view = atom.workspaceView.find('.indentation-indicator')
+      expect(view.text()).toBe 'foo:42'
+
+    it 'reflects the editor settings if there is a file open', ->
+      waitsForPromise ->
+        atom.workspace.open('sample.js')
+
+      runs ->
+        view = atom.workspaceView.find('.indentation-indicator')
+        expect(view.text()).toBe 'Spaces:2'
+
   describe '.deactivate', ->
     it 'removes the indicator view', ->
       view = atom.workspaceView.find('.indentation-indicator')
