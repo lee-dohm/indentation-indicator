@@ -9,6 +9,7 @@ describe 'IndentationIndicator', ->
     waitsForPromise -> atom.packages.activatePackage('indentation-indicator')
 
     runs ->
+      atom.config.set('editor', {softTabs: false, tabLength: 3})
       atom.packages.emit('activated')
       atom.workspaceView.simulateDomAttachment()
 
@@ -26,7 +27,7 @@ describe 'IndentationIndicator', ->
 
       runs ->
         view = atom.workspaceView.find('.indentation-indicator')
-        expect(view.text()).toBe 'Spaces:2'
+        expect(view.text()).toBe 'Tabs:3'
 
   describe '.deactivate', ->
     it 'removes the indicator view', ->
