@@ -13,6 +13,14 @@ class IndentationIndicatorView extends View
   initialize: (@statusBar) ->
     @subscribe @statusBar, 'active-buffer-changed', @update
 
+  # Public: Executes after the view is attached to a parent.
+  afterAttach: ->
+    @update()
+
+  # Public: Tear down any state and detach.
+  destroy: ->
+    @remove()
+
   # Internal: Creates the text for the indicator.
   #
   # softTabs - A {Boolean} indicating whether soft tabs are enabled.
@@ -36,7 +44,3 @@ class IndentationIndicatorView extends View
       @text.text(@formatText(editor.getSoftTabs(), editor.getTabLength())).show()
     else
       @text.hide()
-
-  # Public: Tear down any state and detach.
-  destroy: ->
-    @remove()
