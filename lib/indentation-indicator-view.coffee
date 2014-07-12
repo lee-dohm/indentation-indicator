@@ -4,8 +4,8 @@
 module.exports =
 class IndentationIndicatorView extends View
   @content: ->
-    @div class: 'inline-block', =>
-      @span 'foo:42', class: 'indentation-indicator', outlet: 'text'
+    @div class: 'indentation-indicator inline-block', =>
+      @span 'foo:42', outlet: 'text'
 
   # Public: Initializes the view by subscribing to various events.
   #
