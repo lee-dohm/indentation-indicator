@@ -29,6 +29,26 @@ describe 'IndentationIndicator', ->
         view = atom.workspaceView.find('.indentation-indicator')
         expect(view.text()).toBe 'Tabs:3'
 
+    it 'represents softTabs true as "Spaces"', ->
+      atom.config.set('editor', {softTabs: true, tabLength: 5})
+
+      waitsForPromise ->
+        atom.workspace.open('sample.js')
+
+      runs ->
+        view = atom.workspaceView.find('.indentation-indicator')
+        expect(view.text()).toBe 'Spaces:5'
+
+    it 'uses the defaults if no editor settings are available', ->
+      atom.config.set('editor', {})
+
+      waitsForPromise ->
+        atom.workspace.open('sample.js')
+
+      runs ->
+        view = atom.workspaceView.find('.indentation-indicator')
+        expect(view.text()).toBe 'Spaces:2'
+
   describe '.deactivate', ->
     it 'removes the indicator view', ->
       view = atom.workspaceView.find('.indentation-indicator')
