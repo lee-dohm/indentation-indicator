@@ -2,6 +2,9 @@ IndentationIndicatorView = require './indentation-indicator-view'
 
 # Handles the activation and deactivation of the package.
 class IndentationIndicator
+  configDefaults:
+    spaceAfterColon: false
+
   view: null
 
   # Activates the package.

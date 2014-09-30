@@ -29,7 +29,8 @@ class IndentationIndicatorView extends View
   # Returns the {String} containing the text for the indicator.
   formatText: (softTabs, length) ->
     type = if softTabs then "Spaces" else "Tabs"
-    "#{type}:#{length}"
+    space = if atom.config.get('indentation-indicator.spaceAfterColon') then ' ' else ''
+    "#{type}:#{space}#{length}"
 
   # Internal: Gets the currently active `Editor`.
   #
