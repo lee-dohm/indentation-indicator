@@ -12,6 +12,10 @@ Active editor with soft tabs disabled and four spaces:
 
 ![Hard tabs and four spaces](https://raw.githubusercontent.com/lee-dohm/indentation-indicator/master/hard-tabs.png)
 
+## Configuration
+
+* `indentation-indicator.spaceAfterColon` &mdash; When set to `true`, places a space between the colon and the number of spaces per indentation level.
+
 ## Styles
 
 The indentation indicator can be styled using the following classes:
