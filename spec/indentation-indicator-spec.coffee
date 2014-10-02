@@ -49,6 +49,18 @@ describe 'IndentationIndicator', ->
         view = atom.workspaceView.find('.indentation-indicator')
         expect(view.text()).toBe 'Spaces:2'
 
+    describe 'when spaceAfterColon is true', ->
+      it 'has a space after the colon in the indicator', ->
+        atom.config.set('editor', {softTabs: true, tabLength: 5})
+        atom.config.set('indentation-indicator', {spaceAfterColon: true})
+
+        waitsForPromise ->
+          atom.workspace.open('sample.js')
+
+        runs ->
+          view = atom.workspaceView.find('.indentation-indicator')
+          expect(view.text()).toBe 'Spaces: 5'
+
   describe '.deactivate', ->
     it 'removes the indicator view', ->
       view = atom.workspaceView.find('.indentation-indicator')
