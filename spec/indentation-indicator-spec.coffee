@@ -30,14 +30,14 @@ describe 'IndentationIndicator', ->
         expect(view.text()).toBe 'Tabs:3'
 
     it 'represents softTabs true as "Spaces"', ->
-      atom.config.set('editor', {softTabs: true, tabLength: 5})
+      atom.config.set('editor', {softTabs: true, tabLength: 6})
 
       waitsForPromise ->
         atom.workspace.open('sample.js')
 
       runs ->
         view = atom.workspaceView.find('.indentation-indicator')
-        expect(view.text()).toBe 'Spaces:5'
+        expect(view.text()).toBe 'Spaces:6'
 
     it 'uses the defaults if no editor settings are available', ->
       atom.config.set('editor', {})
@@ -51,7 +51,7 @@ describe 'IndentationIndicator', ->
 
     describe 'when spaceAfterColon is true', ->
       it 'has a space after the colon in the indicator', ->
-        atom.config.set('editor', {softTabs: true, tabLength: 5})
+        atom.config.set('editor', {softTabs: true, tabLength: 6})
         atom.config.set('indentation-indicator', {spaceAfterColon: true})
 
         waitsForPromise ->
@@ -59,7 +59,7 @@ describe 'IndentationIndicator', ->
 
         runs ->
           view = atom.workspaceView.find('.indentation-indicator')
-          expect(view.text()).toBe 'Spaces: 5'
+          expect(view.text()).toBe 'Spaces: 6'
 
   describe '.deactivate', ->
     it 'removes the indicator view', ->

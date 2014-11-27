@@ -8,10 +8,9 @@ class IndentationIndicatorView extends View
       @span 'foo:42', outlet: 'text'
 
   # Public: Initializes the view by subscribing to various events.
-  #
-  # statusBar - {StatusBar} of the application
-  initialize: (@statusBar) ->
-    @subscribe @statusBar, 'active-buffer-changed', @update
+  initialize: ->
+    atom.workspace.onDidChangeActivePaneItem =>
+      @update()
 
   # Public: Executes after the view is attached to a parent.
   afterAttach: ->

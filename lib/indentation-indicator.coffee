@@ -12,7 +12,7 @@ class IndentationIndicator
     atom.packages.once 'activated', =>
       statusBar = atom.workspaceView.statusBar
       if statusBar?
-        @view = new IndentationIndicatorView(statusBar)
+        @view = new IndentationIndicatorView
         statusBar.appendLeft(@view)
 
   # Deactivates the package.
