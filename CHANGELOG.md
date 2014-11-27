@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.2.1** &mdash; *Released: 27 November 2014*
+
+* Update for new APIs
+
 ## **v0.2.0** &mdash; *Released: 2 October 2014*
 
 * Add configuration option (`indentation-indicator.spaceAfterColon`) to show a space after the colon. Defaults to `false`.
