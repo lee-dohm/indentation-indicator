@@ -1,6 +1,8 @@
 {WorkspaceView} = require 'atom'
 
 describe 'IndentationIndicator', ->
+  [indicator] = []
+
   beforeEach ->
     atom.workspaceView = new WorkspaceView
     atom.workspace = atom.workspaceView.model
@@ -12,22 +14,24 @@ describe 'IndentationIndicator', ->
       atom.config.set('editor', {softTabs: false, tabLength: 3})
       atom.packages.emit('activated')
       atom.workspaceView.simulateDomAttachment()
+      indicator = atom.workspaceView.find('.indentation-indicator')
 
   describe '.initialize', ->
     it 'displays in the status bar', ->
-      expect(atom.workspaceView.find('.indentation-indicator').length).toBe 1
+      expect(indicator.length).toBe 1
 
     it 'has placeholder text if there is no file open', ->
-      view = atom.workspaceView.find('.indentation-indicator')
-      expect(view.text()).toBe 'foo:42'
+      expect(indicator.text()).toBe 'foo:42'
+
+    it 'is hidden if there is no file open', ->
+      expect(indicator).toBeHidden()
 
     it 'reflects the editor settings if there is a file open', ->
       waitsForPromise ->
         atom.workspace.open('sample.js')
 
       runs ->
-        view = atom.workspaceView.find('.indentation-indicator')
-        expect(view.text()).toBe 'Tabs:3'
+        expect(indicator.text()).toBe 'Tabs:3'
 
     it 'represents softTabs true as "Spaces"', ->
       atom.config.set('editor', {softTabs: true, tabLength: 6})
@@ -36,8 +40,7 @@ describe 'IndentationIndicator', ->
         atom.workspace.open('sample.js')
 
       runs ->
-        view = atom.workspaceView.find('.indentation-indicator')
-        expect(view.text()).toBe 'Spaces:6'
+        expect(indicator.text()).toBe 'Spaces:6'
 
     it 'uses the defaults if no editor settings are available', ->
       atom.config.set('editor', {})
@@ -46,8 +49,7 @@ describe 'IndentationIndicator', ->
         atom.workspace.open('sample.js')
 
       runs ->
-        view = atom.workspaceView.find('.indentation-indicator')
-        expect(view.text()).toBe 'Spaces:2'
+        expect(indicator.text()).toBe 'Spaces:2'
 
     describe 'when spaceAfterColon is true', ->
       it 'has a space after the colon in the indicator', ->
@@ -58,18 +60,16 @@ describe 'IndentationIndicator', ->
           atom.workspace.open('sample.js')
 
         runs ->
-          view = atom.workspaceView.find('.indentation-indicator')
-          expect(view.text()).toBe 'Spaces: 6'
+          expect(indicator.text()).toBe 'Spaces: 6'
 
   describe '.deactivate', ->
     it 'removes the indicator view', ->
-      view = atom.workspaceView.find('.indentation-indicator')
-      expect(view).toExist()
+      expect(indicator).toExist()
 
       atom.packages.deactivatePackage('indentation-indicator')
 
-      view = atom.workspaceView.find('.indentation-indicator')
-      expect(view).not.toExist()
+      indicator = atom.workspaceView.find('.indentation-indicator')
+      expect(indicator).not.toExist()
 
     it 'can be executed twice', ->
       atom.packages.deactivatePackage('indentation-indicator')
