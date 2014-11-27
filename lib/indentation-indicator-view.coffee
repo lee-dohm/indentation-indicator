@@ -20,26 +20,20 @@ class IndentationIndicatorView extends View
   destroy: ->
     @remove()
 
-  # Internal: Creates the text for the indicator.
+  # Private: Creates the text for the indicator.
   #
-  # softTabs - A {Boolean} indicating whether soft tabs are enabled.
-  # length - The {Number} of spaces that a tab is considered equivalent to.
+  # * `softTabs` {Boolean} indicating whether soft tabs are enabled.
+  # * `length` {Number} of spaces that a tab is considered equivalent to.
   #
-  # Returns the {String} containing the text for the indicator.
+  # Returns a {String} containing the text for the indicator.
   formatText: (softTabs, length) ->
     type = if softTabs then "Spaces" else "Tabs"
     space = if atom.config.get('indentation-indicator.spaceAfterColon') then ' ' else ''
     "#{type}:#{space}#{length}"
 
-  # Internal: Gets the currently active `Editor`.
-  #
-  # Returns the {Editor} that is currently active or `null` if there is not one active.
-  getActiveEditor: ->
-    atom.workspace.getActiveEditor()
-
-  # Internal: Updates the indicator based on the current state of the application.
-  update: =>
-    editor = @getActiveEditor()
+  # Private: Updates the indicator based on the current state of the application.
+  update: ->
+    editor = atom.workspace.getActiveEditor()
     if editor?
       @text.text(@formatText(editor.getSoftTabs(), editor.getTabLength())).show()
     else
