@@ -9,6 +9,10 @@ class IndentationIndicator
 
   # Activates the package.
   activate: ->
+    atom.workspace.observeTextEditors (editor) =>
+      editor.onDidChangeGrammar =>
+        @view.update()
+
     atom.packages.once 'activated', =>
       statusBar = atom.workspaceView.statusBar
       if statusBar?

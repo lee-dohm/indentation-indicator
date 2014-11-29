@@ -9,6 +9,7 @@ describe 'IndentationIndicator', ->
 
     waitsForPromise -> atom.packages.activatePackage('status-bar')
     waitsForPromise -> atom.packages.activatePackage('indentation-indicator')
+    waitsForPromise -> atom.packages.activatePackage('language-gfm')
 
     runs ->
       atom.config.set('editor', softTabs: false, tabLength: 3)
@@ -65,6 +66,25 @@ describe 'IndentationIndicator', ->
 
       runs ->
         expect(indicator.text()).toBe 'Spaces:2'
+
+    describe 'and the grammar changes', ->
+      it 'updates the indicator', ->
+        editor = null
+        atom.config.set '.source.gfm', 'editor.softTabs', true
+        atom.config.set '.source.gfm', 'editor.tabLength', 4
+
+        waitsForPromise ->
+          atom.workspace.open('sample.txt').then (e) ->
+            editor = e
+
+        runs ->
+          grammar = atom.grammars.grammarForScopeName('source.gfm')
+          editor.setGrammar(grammar)
+
+          # See: atom/atom#4344
+          # Soft tab settings are not updated when a new grammar is set
+          # expect(indicator.text()).toEqual 'Spaces:4'
+          expect(indicator.text()).toEqual 'Tabs:4'
 
   describe 'when spaceAfterColon is true', ->
     it 'has a space after the colon in the indicator', ->
