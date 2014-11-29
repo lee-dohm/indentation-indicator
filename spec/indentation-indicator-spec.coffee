@@ -1,5 +1,7 @@
 {WorkspaceView} = require 'atom'
 
+IndentationIndicator = require '../lib/indentation-indicator'
+
 describe 'IndentationIndicator', ->
   [indicator] = []
 
@@ -40,6 +42,12 @@ describe 'IndentationIndicator', ->
     it 'can be executed twice', ->
       atom.packages.deactivatePackage('indentation-indicator')
       atom.packages.deactivatePackage('indentation-indicator')
+
+    it 'disposes of subscriptions', ->
+      spyOn(IndentationIndicator.subscriptions, 'dispose')
+      atom.packages.deactivatePackage('indentation-indicator')
+
+      expect(IndentationIndicator.subscriptions.dispose).toHaveBeenCalled()
 
   describe 'when a file is open', ->
     it 'reflects the editor settings', ->
