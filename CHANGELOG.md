@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **master** &mdash; *Unreleased*
+
+* [#5](https://github.com/lee-dohm/indentation-indicator/issues/5) &mdash; Now updates when the grammar is changed
+
 ## **v0.2.1** &mdash; *Released: 27 November 2014*
 
 * Update for new APIs
