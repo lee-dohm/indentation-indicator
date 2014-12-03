@@ -24,11 +24,8 @@ describe 'IndentationIndicator', ->
       expect(indicator.length).toBe 1
 
     describe 'when there is no file open', ->
-      it 'has placeholder text', ->
-        expect(indicator.text()).toBe 'foo:42'
-
-      it 'is hidden', ->
-        expect(indicator).toBeHidden()
+      it 'has no text', ->
+        expect(indicator.text()).toEqual ''
 
   describe '::deactivate', ->
     it 'removes the indicator view', ->
@@ -36,7 +33,7 @@ describe 'IndentationIndicator', ->
 
       atom.packages.deactivatePackage('indentation-indicator')
 
-      indicator = atom.workspaceView.find('.indentation-indicator')
+      indicator = atom.workspaceView.find('status-bar-indentation')
       expect(indicator).not.toExist()
 
     it 'can be executed twice', ->

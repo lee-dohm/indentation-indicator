@@ -1,40 +1,38 @@
-{View} = require 'atom'
-
-# Status bar view for the indentation indicator.
-module.exports =
-class IndentationIndicatorView extends View
-  @content: ->
-    @div class: 'indentation-indicator inline-block', =>
-      @span 'foo:42', outlet: 'text'
-
-  # Public: Initializes the view by subscribing to various events.
+# Public: Displays the indentation status in the bar.
+class IndentationIndicatorView extends HTMLElement
+  # Public: Initializes the indicator.
   initialize: ->
-    atom.workspace.onDidChangeActivePaneItem =>
+    @classList.add('indentation-indicator', 'inline-block')
+
+    @activeItemSubscription = atom.workspace.onDidChangeActivePaneItem =>
       @update()
 
-  # Public: Executes after the view is attached to a parent.
-  afterAttach: ->
     @update()
 
-  # Public: Tear down any state and detach.
+  # Public: Destroys the indicator.
   destroy: ->
-    @remove()
+    @activeItemSubscription.dispose()
 
-  # Private: Creates the text for the indicator.
+  # Public: Updates the indicator.
+  update: ->
+    editor = atom.workspace.getActiveTextEditor()
+
+    if editor
+      @textContent = @formatText(editor.getSoftTabs(), editor.getTabLength())
+    else
+      @textContent = ''
+
+  # Private: Formats the text of the indicator.
   #
-  # * `softTabs` {Boolean} indicating whether soft tabs are enabled.
-  # * `length` {Number} of spaces that a tab is considered equivalent to.
+  # * `softTabs` A {Boolean} indicating whether soft tabs are enabled.
+  # * `length` A {Number} giving the size of a tab in spaces.
   #
-  # Returns a {String} containing the text for the indicator.
+  # Returns a {String} with the text to display.
   formatText: (softTabs, length) ->
-    type = if softTabs then "Spaces" else "Tabs"
+    type = if softTabs then 'Spaces' else 'Tabs'
     space = if atom.config.get('indentation-indicator.spaceAfterColon') then ' ' else ''
     "#{type}:#{space}#{length}"
 
-  # Private: Updates the indicator based on the current state of the application.
-  update: ->
-    editor = atom.workspace.getActiveEditor()
-    if editor?
-      @text.text(@formatText(editor.getSoftTabs(), editor.getTabLength())).show()
-    else
-      @text.hide()
+module.exports = document.registerElement('status-bar-indentation',
+                                          prototype: IndentationIndicatorView.prototype,
+                                          extends: 'div')

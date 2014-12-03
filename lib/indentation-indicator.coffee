@@ -34,6 +34,7 @@ class IndentationIndicator
       statusBar = atom.workspaceView.statusBar
       if statusBar?
         @view = new IndentationIndicatorView
+        @view.initialize()
         statusBar.appendLeft(@view)
 
 module.exports = new IndentationIndicator
