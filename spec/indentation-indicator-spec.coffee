@@ -1,13 +1,11 @@
-{WorkspaceView} = require 'atom'
-
 IndentationIndicator = require '../lib/indentation-indicator'
 
 describe 'IndentationIndicator', ->
-  [indicator] = []
+  [indicator, workspaceElement, statusBar] = []
 
   beforeEach ->
-    atom.workspaceView = new WorkspaceView
-    atom.workspace = atom.workspaceView.model
+    workspaceElement = atom.views.getView(atom.workspace)
+    jasmine.attachToDOM(workspaceElement)
 
     waitsForPromise -> atom.packages.activatePackage('status-bar')
     waitsForPromise -> atom.packages.activatePackage('indentation-indicator')
@@ -15,17 +13,18 @@ describe 'IndentationIndicator', ->
 
     runs ->
       atom.config.set('editor', softTabs: false, tabLength: 3)
-      atom.packages.emit('activated')
-      atom.workspaceView.simulateDomAttachment()
-      indicator = atom.workspaceView.find('.indentation-indicator')
+      atom.packages.emitter.emit('did-activate-all')
+
+      indicator = IndentationIndicator.view
 
   describe '::initialize', ->
     it 'displays in the status bar', ->
-      expect(indicator.length).toBe 1
+      expect(indicator).toBeDefined()
+      expect(indicator.classList.contains('indentation-indicator')).toBeTruthy()
 
     describe 'when there is no file open', ->
       it 'has no text', ->
-        expect(indicator.text()).toEqual ''
+        expect(indicator.textContent).toEqual ''
 
   describe '::deactivate', ->
     it 'removes the indicator view', ->
@@ -33,18 +32,17 @@ describe 'IndentationIndicator', ->
 
       atom.packages.deactivatePackage('indentation-indicator')
 
-      indicator = atom.workspaceView.find('status-bar-indentation')
-      expect(indicator).not.toExist()
+      expect(IndentationIndicator.view).toBeNull()
 
     it 'can be executed twice', ->
       atom.packages.deactivatePackage('indentation-indicator')
       atom.packages.deactivatePackage('indentation-indicator')
 
     it 'disposes of subscriptions', ->
-      spyOn(IndentationIndicator.subscriptions, 'dispose')
+      spyOn(IndentationIndicator.editorObserver, 'dispose')
       atom.packages.deactivatePackage('indentation-indicator')
 
-      expect(IndentationIndicator.subscriptions.dispose).toHaveBeenCalled()
+      expect(IndentationIndicator.editorObserver.dispose).toHaveBeenCalled()
 
   describe 'when a file is open', ->
     it 'reflects the editor settings', ->
@@ -52,7 +50,7 @@ describe 'IndentationIndicator', ->
         atom.workspace.open('sample.js')
 
       runs ->
-        expect(indicator.text()).toBe 'Tabs:3'
+        expect(indicator.textContent).toBe 'Tabs:3'
 
     it 'represents softTabs true as "Spaces"', ->
       atom.config.set('editor', softTabs: true, tabLength: 6)
@@ -61,7 +59,7 @@ describe 'IndentationIndicator', ->
         atom.workspace.open('sample.js')
 
       runs ->
-        expect(indicator.text()).toBe 'Spaces:6'
+        expect(indicator.textContent).toBe 'Spaces:6'
 
     it 'uses the defaults if no editor settings are available', ->
       atom.config.set('editor', {})
@@ -70,13 +68,13 @@ describe 'IndentationIndicator', ->
         atom.workspace.open('sample.js')
 
       runs ->
-        expect(indicator.text()).toBe 'Spaces:2'
+        expect(indicator.textContent).toBe 'Spaces:2'
 
     describe 'and the grammar changes', ->
       it 'updates the indicator', ->
         editor = null
-        atom.config.set '.source.gfm', 'editor.softTabs', true
-        atom.config.set '.source.gfm', 'editor.tabLength', 4
+        atom.config.set 'editor.softTabs', true, scopeSelector: '.source.gfm'
+        atom.config.set 'editor.tabLength', 4, scopeSelector: '.source.gfm'
 
         waitsForPromise ->
           atom.workspace.open('sample.txt').then (e) ->
@@ -88,8 +86,8 @@ describe 'IndentationIndicator', ->
 
           # See: atom/atom#4344
           # Soft tab settings are not updated when a new grammar is set
-          # expect(indicator.text()).toEqual 'Spaces:4'
-          expect(indicator.text()).toEqual 'Tabs:4'
+          # expect(indicator.textContent).toEqual 'Spaces:4'
+          expect(indicator.textContent).toEqual 'Tabs:4'
 
   describe 'when spaceAfterColon is true', ->
     it 'has a space after the colon in the indicator', ->
@@ -100,4 +98,4 @@ describe 'IndentationIndicator', ->
         atom.workspace.open('sample.js')
 
       runs ->
-        expect(indicator.text()).toBe 'Spaces: 6'
+        expect(indicator.textContent).toBe 'Spaces: 6'

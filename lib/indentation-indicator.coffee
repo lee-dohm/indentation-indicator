@@ -1,15 +1,14 @@
-{CompositeDisposable} = require 'event-kit'
+{CompositeDisposable} = require 'atom'
 
 IndentationIndicatorView = require './indentation-indicator-view'
 
 # Handles the activation and deactivation of the package.
 class IndentationIndicator
   # Private: Default configuration.
-  configDefaults:
-    spaceAfterColon: false
-
-  # Private: Event subscriptions that should be disposed of on deactivation.
-  subscriptions: new CompositeDisposable
+  config:
+    spaceAfterColon:
+      type: 'boolean'
+      default: false
 
   # Private: Indicator view.
   view: null
@@ -20,21 +19,25 @@ class IndentationIndicator
 
   # Public: Deactivates the package.
   deactivate: ->
-    @subscriptions.dispose()
+    @editorObserver?.dispose()
     @view?.destroy()
     @view = null
+    @tile?.destroy()
+    @tile = null
 
   # Private: Creates the set of event observers.
   observeEvents: ->
-    @subscriptions.add atom.workspace.observeTextEditors (editor) =>
-      @subscriptions.add editor.onDidChangeGrammar =>
+    @editorObserver = atom.workspace.observeTextEditors (editor) =>
+      disposable = editor.onDidChangeGrammar =>
         @view.update()
 
-    atom.packages.once 'activated', =>
-      statusBar = atom.workspaceView.statusBar
+      editor.onDidDestroy -> disposable.dispose()
+
+    atom.packages.onDidActivateAll =>
+      statusBar = document.querySelector('status-bar')
       if statusBar?
         @view = new IndentationIndicatorView
-        @view.initialize()
-        statusBar.appendLeft(@view)
+        @view.initialize(statusBar)
+        @tile = statusBar.addLeftTile(item: @view, priority: 100)
 
 module.exports = new IndentationIndicator

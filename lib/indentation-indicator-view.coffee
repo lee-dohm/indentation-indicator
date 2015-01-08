@@ -1,7 +1,7 @@
 # Public: Displays the indentation status in the bar.
 class IndentationIndicatorView extends HTMLElement
   # Public: Initializes the indicator.
-  initialize: ->
+  initialize: (@statusBar) ->
     @classList.add('indentation-indicator', 'inline-block')
 
     @activeItemSubscription = atom.workspace.onDidChangeActivePaneItem =>
@@ -12,6 +12,7 @@ class IndentationIndicatorView extends HTMLElement
   # Public: Destroys the indicator.
   destroy: ->
     @activeItemSubscription.dispose()
+
 
   # Public: Updates the indicator.
   update: ->

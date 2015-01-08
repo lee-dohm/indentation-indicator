@@ -6,9 +6,7 @@
   "repository": "https://github.com/lee-dohm/indentation-indicator",
   "license": "MIT",
   "engines": {
-    "atom": ">=0.153.0"
+    "atom": ">=0.168.0"
   },
-  "dependencies": {
-    "event-kit": "^0.8.0"
-  }
+  "dependencies": {}
 }
