@@ -28,4 +28,4 @@ It uses the following values from `ui-variables` as defaults in order to blend i
 
 ## Copyright
 
-Copyright &copy; [Lee Dohm](http://www.lee-dohm.com) and [Lifted Studios](http://www.liftedstudios.com). See [LICENSE](https://raw.githubusercontent.com/lee-dohm/indentation-indicator/master/LICENSE.md) for details.
+Copyright &copy; 2014-2015 [Lee Dohm](http://www.lee-dohm.com) and [Lifted Studios](http://www.liftedstudios.com). See [LICENSE](https://raw.githubusercontent.com/lee-dohm/indentation-indicator/master/LICENSE.md) for details.

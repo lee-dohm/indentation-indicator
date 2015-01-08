@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## **v0.4.0** &mdash; *Released: 8 January 2015*
+
+* Resolved all deprecations in preparation for Atom v1.0
+* Converted to using the new Status Bar API
+
 ## **v0.3.0** &mdash; *Released: 5 December 2014*
 
 * [#5](https://github.com/lee-dohm/indentation-indicator/issues/5) &mdash; Now updates when the grammar is changed
