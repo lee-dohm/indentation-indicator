@@ -1,7 +1,7 @@
 {
   "name": "indentation-indicator",
   "main": "./lib/indentation-indicator",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Adds an indicator to the status bar that shows the indentation width and type of the active editor",
   "repository": "https://github.com/lee-dohm/indentation-indicator",
   "license": "MIT",
