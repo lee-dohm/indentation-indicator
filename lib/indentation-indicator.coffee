@@ -29,11 +29,11 @@ class IndentationIndicator
   observeEvents: ->
     @editorObserver = atom.workspace.observeTextEditors (editor) =>
       disposable = editor.onDidChangeGrammar =>
-        @view.update()
+        @view?.update()
 
       editor.onDidDestroy -> disposable.dispose()
 
-    atom.packages.onDidActivateAll =>
+    atom.packages.onDidActivateInitialPackages =>
       statusBar = document.querySelector('status-bar')
       if statusBar?
         @view = new IndentationIndicatorView
