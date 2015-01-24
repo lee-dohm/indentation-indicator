@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## **v0.4.1** &mdash; *Released: 24 January 2015*
+
+* [#9](https://github.com/lee-dohm/indentation-indicator/issues/9) &mdash; Guarded against `undefined`
+* Cleaned up some deprecations
+
 ## **v0.4.0** &mdash; *Released: 8 January 2015*
 
 * Resolved all deprecations in preparation for Atom v1.0
