@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.5.1** &mdash; *Released: 2 may 2015*
+
+* Update Atom version requirement to v0.196.0 because it appears that the v1.0 Status Bar API was not released until later than I thought
+
 ## **v0.5.0** &mdash; *Released: 1 May 2015*
 
 * Cleanup for Deprecation Day
