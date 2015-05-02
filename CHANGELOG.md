@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.5.0** &mdash; *Released: 1 May 2015*
+
+* Cleanup for Deprecation Day
+
 ## **v0.4.1** &mdash; *Released: 24 January 2015*
 
 * [#9](https://github.com/lee-dohm/indentation-indicator/issues/9) &mdash; Guarded against `undefined`

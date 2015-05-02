@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/lee-dohm/indentation-indicator.svg?branch=master)](https://travis-ci.org/lee-dohm/indentation-indicator)
-
-# Indentation Indicator
+# Indentation Indicator [![Build Status](https://travis-ci.org/lee-dohm/indentation-indicator.svg?branch=master)](https://travis-ci.org/lee-dohm/indentation-indicator) [![Dependency Status](https://david-dm.org/lee-dohm/indentation-indicator.svg)](https://david-dm.org/lee-dohm/indentation-indicator)
 
 Adds an indicator to the status bar that shows the indentation width and type of the active editor.
 
