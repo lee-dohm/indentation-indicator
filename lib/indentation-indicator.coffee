@@ -1,5 +1,3 @@
-{CompositeDisposable} = require 'atom'
-
 IndentationIndicatorView = require './indentation-indicator-view'
 
 # Handles the activation and deactivation of the package.
@@ -17,6 +15,14 @@ class IndentationIndicator
   activate: ->
     @observeEvents()
 
+  # Private: Consumes the status-bar service.
+  #
+  # * `statusBar` Status bar service.
+  consumeStatusBar: (statusBar) ->
+    @view = new IndentationIndicatorView
+    @view.initialize(statusBar)
+    @tile = statusBar.addLeftTile(item: @view, priority: 100)
+
   # Public: Deactivates the package.
   deactivate: ->
     @editorObserver?.dispose()
@@ -32,12 +38,5 @@ class IndentationIndicator
         @view?.update()
 
       editor.onDidDestroy -> disposable.dispose()
-
-    atom.packages.onDidActivateInitialPackages =>
-      statusBar = document.querySelector('status-bar')
-      if statusBar?
-        @view = new IndentationIndicatorView
-        @view.initialize(statusBar)
-        @tile = statusBar.addLeftTile(item: @view, priority: 100)
 
 module.exports = new IndentationIndicator
