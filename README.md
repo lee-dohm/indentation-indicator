@@ -13,6 +13,7 @@ Active editor with soft tabs disabled and four spaces:
 ## Configuration
 
 * `indentation-indicator.spaceAfterColon` &mdash; When set to `true`, places a space between the colon and the number of spaces per indentation level.
+* `indentation-indicator.indicatorPosition` &mdash; Control the placement of the indicator, `left` or `right`.
 
 ## Styles
 
