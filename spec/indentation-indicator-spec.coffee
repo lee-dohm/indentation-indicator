@@ -26,6 +26,32 @@ describe 'IndentationIndicator', ->
       it 'has no text', ->
         expect(indicator.textContent).toEqual ''
 
+    describe 'when indicatorPosition is "left"', ->
+      it 'displays to the left in the status bar', ->
+        atom.config.set('indentation-indicator.indicatorPosition', 'left')
+        atom.packages.deactivatePackage('indentation-indicator')
+
+        waitsForPromise -> atom.packages.activatePackage('indentation-indicator')
+
+        runs ->
+          indicator = IndentationIndicator.view
+
+          expect(indicator).toBeDefined()
+          expect(indicator.parentNode.classList.contains('status-bar-left')).toBeTruthy()
+
+    describe 'when indicatorPosition is "right"', ->
+      it 'displays to the right in the status bar', ->
+        atom.config.set('indentation-indicator.indicatorPosition', 'right')
+        atom.packages.deactivatePackage('indentation-indicator')
+
+        waitsForPromise -> atom.packages.activatePackage('indentation-indicator')
+
+        runs ->
+          indicator = IndentationIndicator.view
+
+          expect(indicator).toBeDefined()
+          expect(indicator.parentNode.classList.contains('status-bar-right')).toBeTruthy()
+
   describe '::deactivate', ->
     it 'removes the indicator view', ->
       expect(indicator).toExist()

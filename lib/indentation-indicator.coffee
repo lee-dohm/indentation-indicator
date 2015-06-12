@@ -7,6 +7,10 @@ class IndentationIndicator
     spaceAfterColon:
       type: 'boolean'
       default: false
+    indicatorPosition:
+      type: 'string'
+      default: 'left'
+      enum: ['left', 'right']
 
   # Private: Indicator view.
   view: null
@@ -19,9 +23,15 @@ class IndentationIndicator
   #
   # * `statusBar` Status bar service.
   consumeStatusBar: (statusBar) ->
+    priority = 100
+
     @view = new IndentationIndicatorView
     @view.initialize(statusBar)
-    @tile = statusBar.addLeftTile(item: @view, priority: 100)
+
+    if atom.config.get('indentation-indicator.indicatorPosition') is 'right'
+      @tile = statusBar.addRightTile(item: @view, priority: priority)
+    else
+      @tile = statusBar.addLeftTile(item: @view, priority: priority)
 
   # Public: Deactivates the package.
   deactivate: ->
