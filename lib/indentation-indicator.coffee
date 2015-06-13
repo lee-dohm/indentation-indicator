@@ -24,20 +24,16 @@ class IndentationIndicator
   # Private: Consumes the status-bar service.
   #
   # * `statusBar` Status bar service.
-  consumeStatusBar: (statusBar) ->
-    priority = 100
-
-    @view = new IndentationIndicatorView
-    @view.initialize(statusBar)
-
-    if atom.config.get('indentation-indicator.indicatorPosition') is 'right'
-      @tile = statusBar.addRightTile(item: @view, priority: priority)
-    else
-      @tile = statusBar.addLeftTile(item: @view, priority: priority)
+  consumeStatusBar: (@statusBar) ->
+    @updateTile()
 
   # Public: Deactivates the package.
   deactivate: ->
     @subscriptions?.dispose()
+    @destroyTile()
+
+  # Private: Destroys the status bar indicator view and its tile.
+  destroyTile: ->
     @view?.destroy()
     @view = null
     @tile?.destroy()
@@ -51,5 +47,21 @@ class IndentationIndicator
         @view?.update()
 
       editor.onDidDestroy -> disposable.dispose()
+
+    @subscriptions.add atom.config.onDidChange 'indentation-indicator.indicatorPosition', =>
+      @destroyTile()
+      @updateTile()
+
+  # Private: Updates the status bar indicator view and its tile.
+  updateTile: ->
+    priority = 100
+
+    @view = new IndentationIndicatorView
+    @view.initialize(@statusBar)
+
+    if atom.config.get('indentation-indicator.indicatorPosition') is 'right'
+      @tile = @statusBar.addRightTile(item: @view, priority: priority)
+    else
+      @tile = @statusBar.addLeftTile(item: @view, priority: priority)
 
 module.exports = new IndentationIndicator
