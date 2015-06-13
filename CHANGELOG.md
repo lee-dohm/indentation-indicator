@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.6.0** &mdash; *Released: 12 June 2015*
+
+* [#13](https://github.com/lee-dohm/indentation-indicator/pull/13) by [@jwilsson](https://github.com/jwilsson) &mdash; Added a new configuration option to choose whether the indicator should be on the left or right
+
 ## **v0.5.1** &mdash; *Released: 2 May 2015*
 
 * Update Atom version requirement to v0.196.0 because it appears that the v1.0 Status Bar API was not released until later than I thought
