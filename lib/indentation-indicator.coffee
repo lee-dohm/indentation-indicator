@@ -1,3 +1,5 @@
+{CompositeDisposable} = require 'atom'
+
 IndentationIndicatorView = require './indentation-indicator-view'
 
 # Handles the activation and deactivation of the package.
@@ -35,7 +37,7 @@ class IndentationIndicator
 
   # Public: Deactivates the package.
   deactivate: ->
-    @editorObserver?.dispose()
+    @subscriptions?.dispose()
     @view?.destroy()
     @view = null
     @tile?.destroy()
@@ -43,7 +45,8 @@ class IndentationIndicator
 
   # Private: Creates the set of event observers.
   observeEvents: ->
-    @editorObserver = atom.workspace.observeTextEditors (editor) =>
+    @subscriptions = new CompositeDisposable
+    @subscriptions.add atom.workspace.observeTextEditors (editor) =>
       disposable = editor.onDidChangeGrammar =>
         @view?.update()
 

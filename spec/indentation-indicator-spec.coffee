@@ -7,6 +7,8 @@ describe 'IndentationIndicator', ->
     workspaceElement = atom.views.getView(atom.workspace)
     jasmine.attachToDOM(workspaceElement)
 
+    atom.config.set('indentation-indicator.indicatorPosition', 'left')
+
     waitsForPromise -> atom.packages.activatePackage('status-bar')
     waitsForPromise -> atom.packages.activatePackage('indentation-indicator')
     waitsForPromise -> atom.packages.activatePackage('language-gfm')
@@ -65,10 +67,16 @@ describe 'IndentationIndicator', ->
       atom.packages.deactivatePackage('indentation-indicator')
 
     it 'disposes of subscriptions', ->
-      spyOn(IndentationIndicator.editorObserver, 'dispose')
+      spyOn(IndentationIndicator.subscriptions, 'dispose')
       atom.packages.deactivatePackage('indentation-indicator')
 
-      expect(IndentationIndicator.editorObserver.dispose).toHaveBeenCalled()
+      expect(IndentationIndicator.subscriptions.dispose).toHaveBeenCalled()
+
+  describe 'when the configuration changes', ->
+    it 'moves the indicator', ->
+      atom.config.set('indentation-indicator.indicatorPosition', 'right')
+      indicator = IndentationIndicator.view
+      expect(indicator.parentNode.classList.contains('status-bar-right')).toBeTruthy()
 
   describe 'when a file is open', ->
     it 'reflects the editor settings', ->
