@@ -28,5 +28,6 @@
         "^1.0.0": "consumeStatusBar"
       }
     }
-  }
+  },
+  "atomTestRunner": "./spec/runner"
 }
