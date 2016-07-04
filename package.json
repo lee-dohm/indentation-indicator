@@ -29,5 +29,19 @@
       }
     }
   },
-  "atomTestRunner": "./spec/runner"
+  "atomTestRunner": "./spec/runner",
+  "configSchema": {
+    "spaceAfterColon": {
+      "type": "boolean",
+      "default": false
+    },
+    "indicatorPosition": {
+      "type": "string",
+      "default": "left",
+      "enum": [
+        "left",
+        "right"
+      ]
+    }
+  }
 }
