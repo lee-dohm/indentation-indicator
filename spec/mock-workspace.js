@@ -1,5 +1,7 @@
 'use babel'
 
+import {Disposable} from 'atom'
+
 export default class MockWorkspace {
   constructor (editor) {
     this.editor = editor
@@ -7,5 +9,13 @@ export default class MockWorkspace {
 
   getActiveTextEditor () {
     return this.editor
+  }
+
+  observeTextEditors () {
+    return new Disposable()
+  }
+
+  onDidChangeActivePaneItem () {
+    return new Disposable()
   }
 }
