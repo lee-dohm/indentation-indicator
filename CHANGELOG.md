@@ -2,6 +2,7 @@
 
 ## **v1.0.0** &mdash; *Released: 2016-07-04*
 
+* Add a simple tooltip to the indicator
 * Convert package from CoffeeScript to JavaScript
 * Convert from HTML Custom Elements to using [Etch](https://github.com/atom/etch)
 * Convert tests from original style Atom tests to new custom tests using Mocha
