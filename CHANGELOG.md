@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v1.1.0** &mdash; *Released: 2017-06-06*
+
+* Update to use new `Workspace.observeActiveTextEditor` API to work better with Docks
+
 ## **v1.0.0** &mdash; *Released: 2016-07-04*
 
 * Add a simple tooltip to the indicator
