@@ -25,6 +25,6 @@ It uses the following values from `ui-variables` as defaults in order to blend i
 
 * `@text-color` - Color of the indicator text
 
-## Copyright
+## License
 
-Copyright &copy; 2014-2015 [Lee Dohm](http://www.lee-dohm.com) and [Lifted Studios](http://www.liftedstudios.com). See [LICENSE](https://raw.githubusercontent.com/lee-dohm/indentation-indicator/master/LICENSE.md) for details.
+[MIT](https://github.com/lee-dohm/indentation-indicator/blob/master/LICENSE.md)
