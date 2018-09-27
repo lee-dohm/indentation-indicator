@@ -11,6 +11,12 @@ export default class MockWorkspace {
     return this.editor
   }
 
+  observeActiveTextEditor (func) {
+    func(this.editor)
+
+    return new Disposable()
+  }
+
   observeTextEditors () {
     return new Disposable()
   }
